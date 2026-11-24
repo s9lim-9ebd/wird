@@ -235,6 +235,33 @@ a.card h3{color:var(--g);font-family:Amiri,serif;font-size:24px}
 .rules strong{display:block;color:var(--g);font-size:17px}
 .empty{color:var(--mute);padding:20px 0}
 .back{display:inline-flex;align-items:center;min-height:44px;font-weight:500;text-decoration:none;margin-top:14px}
+.tmr{font-family:"IBM Plex Sans Arabic",sans-serif;font-size:13px;color:var(--mute);font-weight:400;display:block;margin-top:2px}
+.nowline{display:inline-block;margin-top:8px;font-size:15px;color:#f0dcae}
+.week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;text-align:center}
+.week .w{display:grid;gap:4px;justify-items:center;font-size:12px;color:var(--mute)}
+.week .dot{width:34px;height:34px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;background:var(--card)}
+.week .dot svg{width:14px;height:14px;color:var(--paper)}
+.week .full .dot{background:var(--g);border-color:var(--g)}
+.week .half .dot{background:var(--half);border-color:transparent}
+.week .part .dot{background:var(--done);border-color:transparent}
+.week .cur .dot{outline:2px solid var(--gold);outline-offset:2px}
+.when{margin-top:14px;display:flex;gap:12px;align-items:flex-start;padding:14px 16px}
+.when .ic{width:38px;height:38px;flex:none;border-radius:50%;display:grid;place-items:center;background:var(--panel);color:var(--gold)}
+.when .ic svg{width:18px;height:18px}
+.when b{display:block;font-weight:600}
+.when p{margin:0;font-size:14px;color:var(--mute)}
+.when.live{border-color:color-mix(in srgb,var(--gold) 55%,var(--line))}
+.when.live .ic{background:var(--gold);color:var(--paper)}
+.seg button.live::after{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--gold);margin-inline-start:6px;vertical-align:2px}
+.badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.bd{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 10px;text-align:center;font-size:13px;color:var(--mute);line-height:1.4}
+.bd svg{width:34px;height:34px;color:var(--line);display:block;margin:0 auto 6px}
+.bd b{display:block;color:var(--ink);font-size:15px;margin-bottom:2px}
+.bd.on{border-color:color-mix(in srgb,var(--gold) 50%,var(--line))}
+.bd.on svg{color:var(--gold)}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(86px + env(safe-area-inset-bottom,0px));z-index:40;background:var(--hero);color:#f4efe2;border:1px solid var(--gold);border-radius:24px;padding:10px 20px;font-size:15px;max-width:calc(100vw - 32px);text-align:center;box-shadow:0 10px 30px -12px rgba(0,0,0,.5)}
+@media(min-width:761px){.toast{bottom:28px}}
+@media(prefers-reduced-motion:no-preference){.toast{animation:tin .35s ease}@keyframes tin{from{opacity:0;transform:translate(-50%,10px)}to{opacity:1;transform:translate(-50%,0)}}}
 footer{color:var(--mute);font-size:13px;padding:10px 0 30px;text-align:center}
 @media(max-width:600px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.pages{grid-template-columns:repeat(6,minmax(0,1fr))}.time{grid-template-columns:minmax(0,1fr);gap:2px}.bars .r{grid-template-columns:7.5em minmax(0,1fr) 2.4em;font-size:14px}.ringw{width:112px;height:112px}.cal{gap:4px}.cal .d{border-radius:9px;font-size:14px}}
 @media(prefers-reduced-motion:no-preference){.ringw circle,.ctr circle,.beadwrap circle{transition:stroke-dashoffset .35s ease}.fx{transition:background .25s}}
@@ -273,13 +300,14 @@ footer{color:var(--mute);font-size:13px;padding:10px 0 30px;text-align:center}
 <div class="hero">
 <svg class="pat" aria-hidden="true"><defs><pattern id="lat" width="56" height="56" patternUnits="userSpaceOnUse"><g fill="none" stroke="currentColor" stroke-width="1"><g transform="translate(28 28)"><rect x="-11" y="-11" width="22" height="22"/><rect x="-11" y="-11" width="22" height="22" transform="rotate(45)"/></g><g transform="translate(0 0)"><rect x="-11" y="-11" width="22" height="22"/><rect x="-11" y="-11" width="22" height="22" transform="rotate(45)"/></g><g transform="translate(56 0)"><rect x="-11" y="-11" width="22" height="22"/><rect x="-11" y="-11" width="22" height="22" transform="rotate(45)"/></g><g transform="translate(0 56)"><rect x="-11" y="-11" width="22" height="22"/><rect x="-11" y="-11" width="22" height="22" transform="rotate(45)"/></g><g transform="translate(56 56)"><rect x="-11" y="-11" width="22" height="22"/><rect x="-11" y="-11" width="22" height="22" transform="rotate(45)"/></g></g></pattern></defs><rect width="100%" height="100%" fill="url(#lat)"/></svg>
 <div class="wrap">
-<div><p class="greet" id="greet"></p><p class="dates" id="dates"></p><span class="streak" id="streak"></span></div>
+<div><p class="greet" id="greet"></p><p class="dates" id="dates"></p><span class="nowline" id="nowLine"></span><br><span class="streak" id="streak"></span></div>
 <div class="ringw"><svg id="ring" viewBox="0 0 132 132" aria-hidden="true"></svg><div class="lbl" id="ringLbl"></div></div>
 </div>
 </div>
 <div class="wrap">
 <div class="card a2hs" id="a2hs" hidden><b>ثبّته كتطبيق على جوالك</b><p class="mute" style="margin:4px 0 10px">في سفاري: اضغط زر المشاركة، ثم «إضافة إلى الشاشة الرئيسية». يفتح بعدها بملء الشاشة ويعمل بدون إنترنت.</p><button class="btn" id="a2hsX">حسنًا</button></div>
 <div class="card next" id="next"></div>
+<div class="sh" style="margin-top:22px"><h3 style="color:var(--g)">أسبوعك</h3><p id="weekTxt"></p></div><div class="week" id="week"></div>
 <div class="orn"><svg><use href="#star"/></svg></div>
 <div class="card verse" id="verse"></div>
 <div class="sh"><h2>وِرد اليوم</h2><div class="row"><button class="btn" id="editW" aria-pressed="false">تعديل</button><button class="btn" id="resetDay">من جديد</button></div></div>
@@ -299,7 +327,8 @@ footer{color:var(--mute);font-size:13px;padding:10px 0 30px;text-align:center}
 
 <section class="view wrap" id="v-adhkar" hidden>
 <div class="sh"><h2>الأذكار</h2><button class="btn" id="modeBtn">عرض القائمة كاملة</button></div>
-<div class="seg" role="group" aria-label="اختر القائمة"><button id="l-sabah">الصباح</button><button id="l-masa">المساء</button><button id="l-nawm">قبل النوم</button></div>
+<div class="card when" id="when"></div>
+<div class="seg" role="group" aria-label="اختر القائمة" style="margin-top:12px"><button id="l-sabah">الصباح</button><button id="l-masa">المساء</button><button id="l-nawm">قبل النوم</button></div>
 <div class="track"><i id="dkTrack"></i></div>
 <div id="focus"></div>
 <div id="listBox" hidden>
@@ -347,9 +376,17 @@ footer{color:var(--mute);font-size:13px;padding:10px 0 30px;text-align:center}
 <section class="view wrap" id="v-log" hidden>
 <div class="sh"><h2>السجل</h2><p>يُحسب اليوم ملتزمًا بنصف الورد فأكثر.</p></div>
 <div class="stats" id="stats"></div>
+<div class="sh"><h2>أوسمتك</h2><p id="bdTxt"></p></div><div class="badges" id="badges"></div>
+<div class="sh"><h2>منذ البداية</h2></div><div class="stats" id="life"></div>
+<div class="sh"><h2>تقويم الشهر</h2></div>
 <div class="monthbar"><button class="btn" id="mPrev">السابق</button><h3 id="mTitle"></h3><button class="btn" id="mNext">التالي</button></div>
 <div class="cal" id="cal"></div>
 <div class="legend"><span><i style="background:var(--g)"></i>مكتمل</span><span><i style="background:var(--half)"></i>نصف فأكثر</span><span><i style="background:var(--done)"></i>أقل من النصف</span><span><i style="background:var(--gold);border-radius:50%"></i>أتممت البقرة</span></div>
+<details><summary>مواقيت الصلاة والموقع</summary><div class="in">
+<p id="locTxt" style="margin:0"></p><div id="ptList" class="mute"></div>
+<p class="mute" style="margin:0">المواقيت محسوبة تقريبيًا (الفجر والعشاء بزاوية ١٨°)، وقد تختلف دقائق عن تقويم الوزارة.</p>
+<div class="row"><button class="btn" id="locGeo">استخدم موقعي الحالي</button><button class="btn" id="locDef">الرميل، وادي بني خالد</button></div>
+<p class="mute" id="locMsg" aria-live="polite" style="margin:0"></p></div></details>
 <details><summary>نسخة احتياطية لبياناتك</summary>
 <div class="in">
 <p class="mute">بياناتك على هذا الجهاز فقط. انسخها واحفظها في الملاحظات، ثم الصقها هنا لاسترجاعها.</p>
@@ -408,6 +445,7 @@ footer{color:var(--mute);font-size:13px;padding:10px 0 30px;text-align:center}
 </section>
 
 </main>
+<div class="toast" id="toast" role="status" hidden></div>
 
 <script>
 {
@@ -415,31 +453,53 @@ const $=id=>document.getElementById(id);
 const ar=n=>Number(n).toLocaleString('ar-EG');
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const kd=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
-const now=new Date();const TK=kd(now);const H=now.getHours();
+const now=new Date();const H=now.getHours();
 const load=(k,f)=>{try{const v=JSON.parse(localStorage.getItem(k));return v==null?f:v}catch(e){return f}};
 const put=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
+/* prayer times (approximate astronomical calculation) */
+const DEFLOC={lat:22.62,lng:59.08,name:'الرميل، وادي بني خالد'};
+const LOC=load('w.loc',DEFLOC);
+const PT=date=>{const rd=Math.PI/180,sin=x=>Math.sin(x*rd),cos=x=>Math.cos(x*rd),tan=x=>Math.tan(x*rd),asin=x=>Math.asin(x)/rd,acos=x=>Math.acos(Math.max(-1,Math.min(1,x)))/rd,atan2=(y,x)=>Math.atan2(y,x)/rd,fa=a=>a-360*Math.floor(a/360),fh=h=>h-24*Math.floor(h/24);
+const {lat,lng}=LOC;let y=date.getFullYear(),m=date.getMonth()+1;const d=date.getDate();let yy=y,mm=m;if(mm<=2){yy--;mm+=12}const A=Math.floor(yy/100),B=2-A+Math.floor(A/4);
+const jd=Math.floor(365.25*(yy+4716))+Math.floor(30.6001*(mm+1))+d+B-1524.5-lng/(15*24);
+const sun=t=>{const D=jd+t-2451545,g=fa(357.529+.98560028*D),q=fa(280.459+.98564736*D),L=fa(q+1.915*sin(g)+.02*sin(2*g)),e=23.439-.00000036*D,RA=atan2(cos(e)*sin(L),cos(L))/15;return{decl:asin(sin(e)*sin(L)),eqt:q/15-fh(RA)}};
+const mid=t=>fh(12-sun(t).eqt);
+const at=(a,t,ccw)=>{const dc=sun(t).decl,T=acos((-sin(a)-sin(dc)*sin(lat))/(cos(dc)*cos(lat)))/15;return mid(t)+(ccw?-T:T)};
+const dA=sun(13/24).decl,asrA=-Math.atan(1/(1+Math.tan(Math.abs(lat-dA)*rd)))/rd;
+const tz=-date.getTimezoneOffset()/60,adj=h=>h+tz-lng/15;
+const raw={fajr:at(18,5/24,1),sunrise:at(.833,6/24,1),dhuhr:mid(12/24),asr:at(asrA,13/24),maghrib:at(.833,18/24),isha:at(18,18/24)};
+const o={};for(const k in raw){const h=adj(raw[k]);o[k]=new Date(y,m-1,d,0,0,0,0);o[k].setTime(o[k].getTime()+Math.round(h*3600)*1000)}return o};
+let WD=new Date(now.getFullYear(),now.getMonth(),now.getDate());let T0=PT(WD);
+if(now<T0.fajr){WD=new Date(WD.getFullYear(),WD.getMonth(),WD.getDate()-1);T0=PT(WD)}
+const T1=PT(new Date(WD.getFullYear(),WD.getMonth(),WD.getDate()+1));
+const BND=[T0.fajr,T0.sunrise,T0.dhuhr,T0.asr,T0.isha,new Date(+T0.maghrib+(T1.fajr-T0.maghrib)*2/3),T1.fajr];
+const TK=kd(WD);
+const fmt=d=>d.toLocaleTimeString('ar-EG',{hour:'numeric',minute:'2-digit'});
+const dur=ms=>{const m=Math.max(1,Math.round(ms/6e4)),h=Math.floor(m/60),r=m%60;const hs=h===1?'ساعة':h===2?'ساعتين':h?ar(h)+' ساعات':'';const ms2=r===1?'دقيقة':r===2?'دقيقتين':r?ar(r)+(r<=10?' دقائق':' دقيقة'):'';return [hs,ms2].filter(Boolean).join(' و')};
+const toast=msg=>{const t=$('toast');t.textContent=msg;t.hidden=false;clearTimeout(toast.h);toast.h=setTimeout(()=>{t.hidden=true},4200)};
 const STAR='<svg><use href="#star"/></svg>';
 
 /* ---------- state ---------- */
-const SLOTS=['السَّحر','الفجر','الضحى','خلال اليوم','المساء','قبل النوم'];
-const nowSlot=H>=3&&H<5?0:H>=5&&H<7?1:H>=7&&H<11?2:H>=11&&H<17?3:H>=17&&H<21?4:5;
+const SLOTS=['الفجر','الضحى','الظهيرة','المساء','قبل النوم','السَّحر'];
+const SLOTD=['من الفجر إلى الشروق','من الشروق إلى الظهر','من الظهر إلى العصر','من العصر إلى العشاء','من العشاء إلى الثلث الأخير','الثلث الأخير من الليل إلى الفجر'];
+const nowSlot=Math.max(0,BND.findIndex((b,i)=>i<6&&now>=b&&now<BND[i+1]));
 const DEF=[
-['q1',0,'قيام الليل أو الوتر','ولو ركعتين'],
-['q2',0,'استغفار ودعاء في الثلث الأخير','«هل من داع فأستجيب له»'],
-['q3',1,'ركعتا الفجر','«خير من الدنيا وما فيها»'],
-['q4',1,'أذكار الصباح','<a href="#adhkar" data-go="sabah">افتحها مع العدّاد</a>'],
-['q5',1,'تاج الذكر ١٠٠ مرة','<a href="#tasbih" data-ph="7">افتح السبحة</a>'],
-['q6',1,'ورد من القرآن','ولو نصف جزء'],
-['q7',2,'صلاة الضحى','ركعتان أو أكثر'],
-['q8',3,'الاستغفار','<a href="#tasbih" data-ph="0">افتح السبحة</a>'],
-['q9',3,'الصلاة على النبي ﷺ','<a href="#tasbih" data-ph="6">افتح السبحة</a>'],
-['q10',3,'الحوقلة والباقيات الصالحات','لا حول ولا قوة إلا بالله'],
-['q11',4,'أذكار المساء','<a href="#adhkar" data-go="masa">افتحها مع العدّاد</a>'],
-['q12',4,'سورة البقرة','<a href="#baqara">تتبّع الصفحات</a>'],
-['q13',5,'أذكار النوم','<a href="#adhkar" data-go="nawm">افتحها مع العدّاد</a>'],
-['q14',5,'الوتر إن لم تصلّه','ركعة واحدة تكفي']
+['q3',0,'ركعتا الفجر','«خير من الدنيا وما فيها»'],
+['q4',0,'أذكار الصباح','<a href="#adhkar" data-go="sabah">افتحها مع العدّاد</a>'],
+['q5',0,'تاج الذكر ١٠٠ مرة','<a href="#tasbih" data-ph="7">افتح السبحة</a>'],
+['q6',0,'ورد من القرآن','ولو نصف جزء'],
+['q7',1,'صلاة الضحى','ركعتان أو أكثر'],
+['q8',2,'الاستغفار','<a href="#tasbih" data-ph="0">افتح السبحة</a>'],
+['q9',2,'الصلاة على النبي ﷺ','<a href="#tasbih" data-ph="6">افتح السبحة</a>'],
+['q10',2,'الحوقلة والباقيات الصالحات','لا حول ولا قوة إلا بالله'],
+['q11',3,'أذكار المساء','<a href="#adhkar" data-go="masa">افتحها مع العدّاد</a>'],
+['q12',3,'سورة البقرة','<a href="#baqara">تتبّع الصفحات</a>'],
+['q13',4,'أذكار النوم','<a href="#adhkar" data-go="nawm">افتحها مع العدّاد</a>'],
+['q14',4,'الوتر إن لم تصلّه','ركعة واحدة تكفي'],
+['q1',5,'قيام الليل أو الوتر','ولو ركعتين'],
+['q2',5,'استغفار ودعاء في الثلث الأخير','«هل من داع فأستجيب له»']
 ].map(([id,s,a,b])=>({id,s,a,b,d:1}));
-let items=load('w.items',null)||DEF.map(x=>({...x}));
+let items=load('w.items',null);if(items&&!load('w.ver',0)){const M=[5,0,1,2,3,4];items.forEach(x=>{x.s=M[x.s]??x.s})}items=items||DEF.map(x=>({...x}));put('w.items',items);put('w.ver',2);
 const days=load('w.days',{});
 const day=()=>days[TK]||(days[TK]={t:{},c:{},bp:[],tsb:{}});
 const cnts=load('w.cnt',{});
@@ -448,7 +508,7 @@ const tsb=load('w.tsb',{p:0,tg:100,n:0,cp:''});
 const saveDays=()=>put('w.days',days);
 
 /* ---------- today ---------- */
-$('greet').textContent=H>=3&&H<12?'صبّحك الله بالخير':H<17&&H>=12?'طاب يومك بذكر الله':H>=17&&H<21?'مسّاك الله بالخير':'ليلة مباركة';
+$('greet').textContent=nowSlot<=0?'صبّحك الله بالخير':nowSlot===1?'ضحى مبارك':nowSlot===2?'طاب يومك بذكر الله':nowSlot===3?'مسّاك الله بالخير':nowSlot===4?'ليلة هانئة':'سَحَر مبارك';
 let hij='';try{hij=new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura-nu-arab',{day:'numeric',month:'long',year:'numeric'}).format(now)}catch(e){}
 $('dates').innerHTML=`${now.toLocaleDateString('ar-EG',{weekday:'long'})}${hij?` · <b>${hij}</b>`:''} · ${now.toLocaleDateString('ar-EG',{day:'numeric',month:'long'})}`;
 const VERSES=[
@@ -475,9 +535,13 @@ const VERSES=[
 const doy=Math.floor((now-new Date(now.getFullYear(),0,0))/864e5);
 const [vt,vs,vq]=VERSES[doy%VERSES.length];
 $('verse').innerHTML=`<p class="k">${vq?'آية اليوم':'من هدي النبي ﷺ'}</p><p class="t">${vq?'﴿'+vt+'﴾':vt}</p><p class="s">${vs}</p>`;
+$('nowLine').textContent=`الآن: ${SLOTS[nowSlot]} · حتى ${fmt(BND[nowSlot+1])}`;
 const slotSel=$('nS');slotSel.innerHTML=SLOTS.map((s,i)=>`<option value="${i}">${s}</option>`).join('');
-const stamp=()=>{const d=day();d.tot=items.length;d.done=items.filter(x=>d.t[x.id]).length;saveDays()};
-const streak=()=>{let s=0,dt=new Date(now);const ok=k=>{const r=days[k];return r&&r.tot&&r.done/r.tot>=.5};if(!ok(kd(dt)))dt.setDate(dt.getDate()-1);while(ok(kd(dt))){s++;dt.setDate(dt.getDate()-1)}return s};
+const stamp=()=>{const d=day();d.tot=items.length;d.done=items.filter(x=>d.t[x.id]).length;if(d.tot&&d.done===d.tot&&!d.cel){d.cel=1;if(READY)toast('أتممت ورد اليوم، تقبّل الله منك')}saveDays()};
+let READY=false;
+const drawWeek=()=>{const wd=['ح','ن','ث','ر','خ','ج','س'];let h='',cnt=0;for(let i=6;i>=0;i--){const dt=new Date(WD.getFullYear(),WD.getMonth(),WD.getDate()-i),r=days[kd(dt)],c=!r||!r.tot||!r.done?'':r.done===r.tot?'full':r.done/r.tot>=.5?'half':'part';if(c==='full'||c==='half')cnt++;h+=`<div class="w ${c}${i===0?' cur':''}"><span class="dot">${c==='full'?'<svg><use href="#tick"/></svg>':''}</span>${wd[dt.getDay()]}</div>`}
+$('week').innerHTML=h;$('weekTxt').textContent=cnt?`التزمت ${ar(cnt)} من ٧ أيام`:'كل يوم تلتزم فيه يضيء دائرته'};
+const streak=()=>{let s=0,dt=new Date(WD);const ok=k=>{const r=days[k];return r&&r.tot&&r.done/r.tot>=.5};if(!ok(kd(dt)))dt.setDate(dt.getDate()-1);while(ok(kd(dt))){s++;dt.setDate(dt.getDate()-1)}return s};
 const plural=s=>s===1?'يوم':s===2?'يومان':s<=10?'أيام':'يومًا';
 const drawHero=()=>{const d=day(),tot=items.length,done=items.filter(x=>d.t[x.id]).length,R=56,L=2*Math.PI*R;
 $('ring').innerHTML=`<circle cx="66" cy="66" r="${R}" fill="none" stroke="rgba(255,255,255,.14)" stroke-width="9"/><circle cx="66" cy="66" r="${R}" fill="none" stroke="var(--gold)" stroke-width="9" stroke-linecap="round" stroke-dasharray="${L}" stroke-dashoffset="${tot?L*(1-done/tot):L}" transform="rotate(-90 66 66)"/>`;
@@ -487,8 +551,8 @@ const order=[...items.filter(x=>x.s>=nowSlot),...items.filter(x=>x.s<nowSlot)];c
 $('next').innerHTML=nx?`<p class="k" style="margin:0">التالي · ${SLOTS[nx.s]}</p><h3>${esc(nx.a)}</h3><p class="mute" style="margin:0">${nx.d?nx.b:esc(nx.b||'')}</p><div class="acts"><button class="btn pri" data-done="${nx.id}">تم، الحمد لله</button></div>`:`<div style="text-align:center"><p class="k" style="margin:0">${STAR.replace('<svg>','<svg width="18" height="18" style="color:var(--gold)">')}</p><h3>أتممت ورد اليوم</h3><p class="mute" style="margin:0">تقبّل الله منك، وجعله في ميزانك.</p></div>`};
 const drawSlots=()=>{const d=day();
 $('slots').innerHTML=SLOTS.map((t,si)=>{const its=items.filter(x=>x.s===si);if(!its.length)return '';const dn=its.filter(x=>d.t[x.id]).length,full=dn===its.length;
-return `<div class="slot${si===nowSlot?' now':''}${full?' full':''}"><span class="node">${full?'<svg><use href="#tick"/></svg>':''}</span><h3>${t}${si===nowSlot?'<small>الآن</small>':''}<span class="c">${ar(dn)} من ${ar(its.length)}</span></h3>${its.map(x=>`<label class="chk" for="${x.id}"><input type="checkbox" id="${x.id}" ${d.t[x.id]?'checked':''}><span class="tx"><b>${esc(x.a)}</b><span>${x.d?x.b:esc(x.b||'')}</span></span><button type="button" class="del" data-del="${x.id}" aria-label="حذف ${esc(x.a)}">×</button></label>`).join('')}</div>`}).join('');
-drawHero()};
+return `<div class="slot${si===nowSlot?' now':''}${full?' full':''}"><span class="node">${full?'<svg><use href="#tick"/></svg>':''}</span><h3><span>${t}${si===nowSlot?' <small>الآن</small>':''}<span class="tmr">${SLOTD[si]} · ${fmt(BND[si])} – ${fmt(BND[si+1])}</span></span><span class="c">${ar(dn)} من ${ar(its.length)}</span></h3>${its.map(x=>`<label class="chk" for="${x.id}"><input type="checkbox" id="${x.id}" ${d.t[x.id]?'checked':''}><span class="tx"><b>${esc(x.a)}</b><span>${x.d?x.b:esc(x.b||'')}</span></span><button type="button" class="del" data-del="${x.id}" aria-label="حذف ${esc(x.a)}">×</button></label>`).join('')}</div>`}).join('');
+drawHero();drawWeek();READY&&checkBadges()};
 $('slots').addEventListener('change',e=>{if(e.target.type!=='checkbox')return;day().t[e.target.id]=e.target.checked;stamp();drawSlots()});
 $('slots').addEventListener('click',e=>{const b=e.target.closest('[data-del]');if(!b)return;e.preventDefault();items=items.filter(x=>x.id!==b.dataset.del);put('w.items',items);stamp();drawSlots()});
 $('next').addEventListener('click',e=>{const b=e.target.closest('[data-done]');if(!b)return;day().t[b.dataset.done]=true;stamp();drawSlots()});
@@ -561,7 +625,15 @@ nawm:{src:'من «سنن قبل النوم» وما ثبت في الرسائل.'
 ['باسمك اللهم أموت وأحيا',1]
 ]}
 };
-let cur=H>=3&&H<12?'sabah':H>=12&&H<21?'masa':'nawm';
+const WIN={sabah:[BND[0],BND[2]],masa:[BND[3],BND[4]],nawm:[BND[4],BND[5]]};
+const ACT=Object.keys(WIN).find(k=>now>=WIN[k][0]&&now<WIN[k][1])||null;
+let cur=ACT||(now>=BND[5]?'sabah':'masa');
+const CLK='<svg viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></g></svg>';
+const drawWhen=()=>{const w=WIN[cur],live=cur===ACT;const txt={sabah:`من الفجر ${fmt(BND[0])} إلى الظهر ${fmt(BND[2])}، وأفضلها قبل الشروق ${fmt(BND[1])}`,masa:`من العصر ${fmt(BND[3])} إلى العشاء ${fmt(BND[4])}، وأفضلها قبل المغرب ${fmt(T0.maghrib)}`,nawm:`عند النوم، من العشاء ${fmt(BND[4])} إلى الثلث الأخير ${fmt(BND[5])}`}[cur];
+const st0=cur==='sabah'&&now>=BND[5]?BND[6]:w[0];
+let st;if(live)st=`وقتها الآن، وينتهي بعد ${dur(w[1]-now)}`;else if(now<st0)st=`يبدأ وقتها بعد ${dur(st0-now)}`;else st='انتهى وقتها لهذا اليوم، ويمكنك قراءتها متى تذكرت';
+$('when').className='card when'+(live?' live':'');$('when').innerHTML=`<span class="ic">${CLK}</span><span><b>${st}</b><p>${txt}</p></span>`;
+['sabah','masa','nawm'].forEach(k=>$('l-'+k).classList.toggle('live',k===ACT))};
 let listMode=false,fi=0;
 const need=(id,n)=>cnts[id]||n;
 const firstOpen=()=>{const l=L[cur].items,c=day().c;const i=l.findIndex(([t,n],j)=>(c[cur+j]||0)<need(cur+j,n));return i<0?-1:i};
@@ -574,10 +646,10 @@ $('focus').innerHTML=`<div class="card fx${ok?' okc':''}" id="fx" role="button" 
 <div class="nav2"><button class="btn" id="fPrev" ${fi===0?'disabled':''}>السابق</button><button class="btn" id="fNext">${fi===l.length-1?'إنهاء':'التالي'}</button></div>`};
 let adv=null;
 const tapFocus=()=>{const l=L[cur].items;if(fi<0)return;const [t,n]=l[fi],id=cur+fi,m=need(id,n),c=day().c,v=c[id]||0;if(v>=m)return;c[id]=v+1;saveDays();drawFocus();
-if(v+1>=m){clearTimeout(adv);adv=setTimeout(()=>{fi=firstOpen();drawFocus();$('fx')?.focus()},450)}else $('fx')?.focus()};
+if(v+1>=m){clearTimeout(adv);adv=setTimeout(()=>{fi=firstOpen();drawFocus();$('fx')?.focus();if(fi<0)checkBadges()},450)}else $('fx')?.focus()};
 $('focus').addEventListener('click',e=>{if(e.target.closest('#fPrev')){fi=Math.max(0,fi-1);drawFocus();return}if(e.target.closest('#fNext')){const l=L[cur].items;fi=fi>=l.length-1?firstOpen():fi+1;drawFocus();return}if(e.target.closest('#again')){const c=day().c;Object.keys(c).filter(k=>k.startsWith(cur)).forEach(k=>delete c[k]);saveDays();fi=0;drawFocus();return}if(e.target.closest('#fx'))tapFocus()});
 $('focus').addEventListener('keydown',e=>{if(e.target.id==='fx'&&(e.key===' '||e.key==='Enter')){e.preventDefault();tapFocus()}});
-const drawDk=()=>{const l=L[cur],c=day().c;$('lsrc').textContent=l.src;
+const drawDk=()=>{const l=L[cur],c=day().c;$('lsrc').textContent=l.src;drawWhen();
 ['sabah','masa','nawm'].forEach(k=>$('l-'+k).setAttribute('aria-pressed',k===cur?'true':'false'));
 $('focus').hidden=listMode;$('listBox').hidden=!listMode;$('modeBtn').textContent=listMode?'عرض ذكر واحد':'عرض القائمة كاملة';
 if(!listMode){drawFocus();return}
@@ -613,6 +685,7 @@ $('customP').addEventListener('input',()=>{tsb.cp=$('customP').value.trim();$('c
 $('bead').addEventListener('click',()=>{tsb.n++;const t=day().tsb,k=phText();t[k]=(t[k]||0)+1;saveDays();const tg=+tsb.tg;
 if(tg&&tsb.n%tg===0){$('tdone').textContent=`اكتمل ${ar(tsb.n)}، تقبّل الله`;if($('vib').checked&&navigator.vibrate){try{navigator.vibrate([60,60,120])}catch(e){}}}else if(tg&&tsb.n%tg===1&&tsb.n>1)$('tdone').textContent='';
 drawT()});
+$('bead').addEventListener('click',()=>checkBadges());
 $('tminus').addEventListener('click',()=>{if(tsb.n<1)return;tsb.n--;const t=day().tsb,k=phText();if(t[k])t[k]--;saveDays();drawT()});
 $('treset').addEventListener('click',()=>{tsb.n=0;$('tdone').textContent='';drawT()});
 tgSel.addEventListener('change',()=>{if(tgSel.value==='c'){$('tgtCw').hidden=false;tsb.tg=Math.max(1,parseInt($('tgtC').value)||500)}else{$('tgtCw').hidden=true;tsb.tg=+tgSel.value}drawT()});
@@ -634,8 +707,8 @@ const m1=PAGES.filter(p=>mem[p]===1).length,m2=PAGES.filter(p=>mem[p]===2).lengt
 $('mmTxt').textContent=`أتقنت ${ar(m2)} وتحفظ ${ar(m1)} من ٤٨ صفحة`;$('mmBar').style.width=((m2+m1*.5)/48*100)+'%';
 $('mmGrid').innerHTML=grid('mp',p=>mem[p]?'m'+mem[p]:'')};
 const setBq=()=>{const d=day();d.bq=d.bp.length===48;if(d.bq)d.t.q12=true;stamp();saveDays()};
-$('rdGrid').addEventListener('click',e=>{const b=e.target.closest('[data-rp]');if(!b)return;const p=+b.dataset.rp,bp=day().bp;const i=bp.indexOf(p);i<0?bp.push(p):bp.splice(i,1);setBq();drawB();document.querySelector(`[data-rp="${p}"]`)?.focus()});
-$('mmGrid').addEventListener('click',e=>{const b=e.target.closest('[data-mp]');if(!b)return;const p=+b.dataset.mp;mem[p]=((mem[p]||0)+1)%3;if(!mem[p])delete mem[p];put('w.mem',mem);drawB();document.querySelector(`[data-mp="${p}"]`)?.focus()});
+$('rdGrid').addEventListener('click',e=>{setTimeout(checkBadges,0);const b=e.target.closest('[data-rp]');if(!b)return;const p=+b.dataset.rp,bp=day().bp;const i=bp.indexOf(p);i<0?bp.push(p):bp.splice(i,1);setBq();drawB();document.querySelector(`[data-rp="${p}"]`)?.focus()});
+$('mmGrid').addEventListener('click',e=>{setTimeout(checkBadges,0);const b=e.target.closest('[data-mp]');if(!b)return;const p=+b.dataset.mp;mem[p]=((mem[p]||0)+1)%3;if(!mem[p])delete mem[p];put('w.mem',mem);drawB();document.querySelector(`[data-mp="${p}"]`)?.focus()});
 $('rdAll').addEventListener('click',()=>{day().bp=[...PAGES];setBq();drawB()});
 $('rdClr').addEventListener('click',()=>{day().bp=[];setBq();drawB()});
 $('m-read').addEventListener('click',()=>{mode='read';drawB()});
@@ -653,12 +726,25 @@ $('mTitle').textContent=vm.toLocaleDateString('ar-EG',{month:'long',year:'numeri
 const first=vm.getDay(),n=new Date(vm.getFullYear(),vm.getMonth()+1,0).getDate();
 let h=['ح','ن','ث','ر','خ','ج','س'].map(w=>`<div class="wd">${w}</div>`).join('')+Array(first).fill('<div></div>').join('');
 for(let i=1;i<=n;i++){const k=kd(new Date(vm.getFullYear(),vm.getMonth(),i)),r=days[k];h+=`<div class="d ${lvl(r)}${k===TK?' today':''}" title="${r&&r.tot?ar(r.done)+' من '+ar(r.tot):''}">${ar(i)}${r&&r.bq?'<span class="bq"></span>':''}</div>`}
-$('cal').innerHTML=h;
+$('cal').innerHTML=h;drawBadges();drawLoc();
 $('mNext').disabled=vm.getFullYear()===now.getFullYear()&&vm.getMonth()===now.getMonth()};
 $('mPrev').addEventListener('click',()=>{vm=new Date(vm.getFullYear(),vm.getMonth()-1,1);drawLog()});
 $('mNext').addEventListener('click',()=>{vm=new Date(vm.getFullYear(),vm.getMonth()+1,1);drawLog()});
 $('bkCopy').addEventListener('click',async()=>{const data=JSON.stringify({items,days,cnts,mem,tsb});try{await navigator.clipboard.writeText(data);$('bkMsg').textContent='نُسخت. الصقها في الملاحظات واحفظها.'}catch(e){$('bkIn').value=data;$('bkIn').select();$('bkMsg').textContent='لم يسمح المتصفح بالنسخ التلقائي. النص محدد في المربع، انسخه يدويًا.'}});
 $('bkLoad').addEventListener('click',()=>{try{const o=JSON.parse($('bkIn').value);if(!o.days)throw 0;put('w.items',o.items||DEF);put('w.days',o.days);put('w.cnt',o.cnts||{});put('w.mem',o.mem||{});put('w.tsb',o.tsb||tsb);$('bkMsg').textContent='تم الاسترجاع.';setTimeout(()=>location.reload(),800)}catch(e){$('bkMsg').textContent='النص غير صالح. تأكد أنك لصقت النسخة كاملة.'}});
+
+/* ---------- badges ---------- */
+const STARB='<svg><use href="#star"/></svg>';
+const listDone=(d,l)=>L[l].items.every(([t,n],j)=>((d.c||{})[l+j]||0)>=need(l+j,n));
+const metrics=()=>{const all=Object.values(days);return{tt:all.reduce((a,d)=>a+Object.values(d.tsb||{}).reduce((x,y)=>x+y,0),0),bq:all.filter(d=>d.bq).length,mm:Object.values(mem).filter(v=>v===2).length,bs:best(),wd:all.filter(d=>d.done).length,ad:all.reduce((a,d)=>a+['sabah','masa','nawm'].filter(l=>listDone(d,l)).length,0)}};
+const BADGES=m=>[['أول خطوة','أول يوم تلتزم فيه بنصف الورد',m.bs>=1],['ثلاثة أيام','ثلاثة أيام متتالية',m.bs>=3],['أسبوع كامل','سبعة أيام متتالية',m.bs>=7],['أربعون يومًا','أربعون يومًا متتالية',m.bs>=40],['أذكار مكتملة','أتممت ٣٠ قائمة أذكار',m.ad>=30],['ألف ذكر','١٠٠٠ ذكر في السبحة',m.tt>=1000],['عشرة آلاف','١٠٠٠٠ ذكر في السبحة',m.tt>=1e4],['ختمة البقرة','أول قراءة كاملة للبقرة',m.bq>=1],['عشر ختمات','البقرة كاملة عشر مرات',m.bq>=10],['حافظ الجزء','أتقنت ٢٠ صفحة من البقرة',m.mm>=20],['حافظ البقرة','أتقنت البقرة كاملة',m.mm>=48]];
+const checkBadges=()=>{if(!READY)return;const got=load('w.badges',[]),b=BADGES(metrics());b.forEach(([n,d,ok])=>{if(ok&&!got.includes(n)){got.push(n);toast('وسام جديد: '+n+' · '+d)}});put('w.badges',got)};
+const drawBadges=()=>{const m=metrics(),b=BADGES(m),n=b.filter(x=>x[2]).length;$('bdTxt').textContent=`${ar(n)} من ${ar(b.length)}`;
+$('badges').innerHTML=b.map(([t,d,ok])=>`<div class="bd${ok?' on':''}">${STARB}<b>${t}</b>${d}</div>`).join('');
+$('life').innerHTML=[[m.wd,'يومًا عملت فيها بالورد'],[m.ad,'قائمة أذكار أتممتها'],[m.tt,'ذكرًا في السبحة'],[m.bq,'ختمة للبقرة']].map(([v,t])=>`<div><b>${ar(v)}</b>${t}</div>`).join('')};
+const drawLoc=()=>{$('locTxt').textContent='الموقع: '+LOC.name;$('ptList').textContent=`الفجر ${fmt(T0.fajr)} · الشروق ${fmt(T0.sunrise)} · الظهر ${fmt(T0.dhuhr)} · العصر ${fmt(T0.asr)} · المغرب ${fmt(T0.maghrib)} · العشاء ${fmt(T0.isha)}`};
+$('locGeo').addEventListener('click',()=>{if(!navigator.geolocation){$('locMsg').textContent='المتصفح لا يدعم تحديد الموقع.';return}$('locMsg').textContent='جارٍ تحديد موقعك…';try{navigator.geolocation.getCurrentPosition(p=>{put('w.loc',{lat:+p.coords.latitude.toFixed(3),lng:+p.coords.longitude.toFixed(3),name:'موقعك الحالي'});location.reload()},()=>{$('locMsg').textContent='لم يُسمح بتحديد الموقع. فعّله من إعدادات سفاري أو استخدم الموقع الافتراضي.'},{timeout:15000})}catch(e){$('locMsg').textContent='تحديد الموقع غير متاح هنا.'}});
+$('locDef').addEventListener('click',()=>{put('w.loc',DEFLOC);location.reload()});
 
 /* ---------- reference ---------- */
 const sabit=[
@@ -739,6 +825,9 @@ if(v==='log')drawLog();if(v==='today')drawSlots();if(v==='baqara')drawB();if(v==
 window.scrollTo(0,0)};
 document.addEventListener('click',e=>{const a=e.target.closest('[data-go],[data-ph]');if(!a)return;if(a.dataset.go){listMode=false;pick(a.dataset.go)}if(a.dataset.ph){tsb.p=+a.dataset.ph;tsb.n=0;$('tdone').textContent='';drawT()}});
 window.addEventListener('hashchange',route);
+const nextB=BND.find(b=>b>now);if(nextB&&nextB-now<864e5)setTimeout(()=>location.reload(),nextB-now+2000);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&Date.now()-now>60*6e4)location.reload()});
+READY=true;{const got=load('w.badges',null);if(got===null){put('w.badges',BADGES(metrics()).filter(x=>x[2]).map(x=>x[0]))}}
 route();
 
 try{const ios=/iphone|ipad|ipod/i.test(navigator.userAgent),sa=window.navigator.standalone||matchMedia('(display-mode: standalone)').matches,top=window.top===window;if(ios&&!sa&&top&&!load('w.a2hs',0))$('a2hs').hidden=false}catch(e){}
