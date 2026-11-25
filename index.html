@@ -238,6 +238,18 @@ main{padding:0 0 40px}
 .mbism{font-family:"Amiri Quran",Amiri,serif;text-align:center;font-size:26px;color:var(--g);margin:0 0 8px}
 .msura{text-align:center;font-family:Amiri,serif;color:var(--gold);font-size:20px;border:1px solid color-mix(in srgb,var(--gold) 50%,var(--line));border-radius:12px;padding:4px;margin:0 0 10px}
 .mpage.read{background:var(--done)}
+.juzg{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:7px;margin-top:14px}
+.jz{border:1px solid var(--line);background:var(--card);border-radius:12px;cursor:pointer;min-height:56px;display:grid;place-items:center;align-content:center;gap:0;padding:4px 2px}
+.jz b{font-family:Amiri,serif;font-size:20px;color:var(--g);line-height:1.1}
+.jz small{font-size:11px;color:var(--mute);line-height:1.2}
+.jz .mini{width:70%;height:4px;background:var(--panel);border-radius:2px;overflow:hidden;margin-top:3px}
+.jz .mini i{display:block;height:100%;background:var(--gold)}
+.jz.done{background:var(--g);border-color:var(--g)}
+.jz.done b,.jz.done small{color:var(--paper)}
+.jz.cur{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold)}
+.hist{list-style:none;margin:10px 0 0;padding:0}
+.hist li{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-top:1px solid var(--line);font-size:15px}
+@media(max-width:600px){.juzg{grid-template-columns:repeat(5,minmax(0,1fr))}}
 /* log */
 .stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
 .stats div{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 14px;font-size:13px;color:var(--mute);line-height:1.4}
@@ -337,7 +349,7 @@ footer{color:var(--mute);font-size:13px;padding:10px 0 30px;text-align:center}
 <header class="hd"><div class="wrap">
 <a class="logo" href="#today"><svg><use href="#star"/></svg>وِرد اليوم</a>
 <nav aria-label="الأقسام">
-<a href="#today" data-tab="today">اليوم</a><a href="#adhkar" data-tab="adhkar">الأذكار</a><a href="#tasbih" data-tab="tasbih">السبحة</a><a href="#baqara" data-tab="baqara">البقرة</a><a href="#log" data-tab="log">السجل</a>
+<a href="#today" data-tab="today">اليوم</a><a href="#adhkar" data-tab="adhkar">الأذكار</a><a href="#tasbih" data-tab="tasbih">السبحة</a><a href="#baqara" data-tab="baqara">القرآن</a><a href="#log" data-tab="log">السجل</a>
 </nav>
 <a class="ref" href="#more" data-tab="more">المرجع وأذكار أخرى</a>
 </div></header>
@@ -346,7 +358,7 @@ footer{color:var(--mute);font-size:13px;padding:10px 0 30px;text-align:center}
 <a href="#today" data-tab="today"><svg><use href="#i-today"/></svg>اليوم</a>
 <a href="#adhkar" data-tab="adhkar"><svg><use href="#i-adhkar"/></svg>الأذكار</a>
 <a href="#tasbih" data-tab="tasbih"><svg><use href="#i-tasbih"/></svg>السبحة</a>
-<a href="#baqara" data-tab="baqara"><svg><use href="#i-baqara"/></svg>البقرة</a>
+<a href="#baqara" data-tab="baqara"><svg><use href="#i-baqara"/></svg>القرآن</a>
 <a href="#log" data-tab="log"><svg><use href="#i-log"/></svg>السجل</a>
 </nav>
 
@@ -415,8 +427,8 @@ footer{color:var(--mute);font-size:13px;padding:10px 0 30px;text-align:center}
 </section>
 
 <section class="view wrap" id="v-baqara" hidden>
-<div class="sh"><h2>سورة البقرة</h2><p>«أخذها بركة، وتركها حسرة»، ٤٨ صفحة في مصحف المدينة</p></div>
-<div class="seg" role="group" aria-label="الوضع"><button id="m-read">قراءة اليوم</button><button id="m-mem">الحفظ</button></div>
+<div class="sh"><h2 id="qH">القرآن الكريم</h2><p id="qP"></p></div>
+<div class="seg" role="group" aria-label="الوضع"><button id="m-kh">الختمة</button><button id="m-read">البقرة اليوم</button><button id="m-mem">حفظ البقرة</button></div>
 <div id="bqRead">
 <div class="card bqhero" style="margin-top:14px">
 <div class="bqring"><svg id="bqRing" viewBox="0 0 120 120" aria-hidden="true"></svg><div class="lbl"><b id="bqNum"></b>من ٤٨</div></div>
@@ -427,6 +439,22 @@ footer{color:var(--mute);font-size:13px;padding:10px 0 30px;text-align:center}
 <div id="rdGrid"></div>
 <div class="row" style="margin-top:16px"><button class="btn" id="rdAll">قرأتها كاملة</button><button class="btn" id="rdClr">تصفير قراءة اليوم</button></div>
 <p class="mute" style="margin-top:10px">اضغط «اقرأها هنا» لتقرأ الصفحة داخل التطبيق، أو اضغط مرتين على أي صفحة لفتحها. مقسّمة على الصلوات الخمس: عشر صفحات بعد كل صلاة تقريبًا. اضغط الجلسة لتعليمها كلها، أو الصفحة لتعليمها وحدها.</p>
+</div>
+<div id="bqKh" hidden>
+<div class="card bqhero" style="margin-top:14px">
+<div class="bqring"><svg id="khRing" viewBox="0 0 120 120" aria-hidden="true"></svg><div class="lbl"><b id="khNum"></b>من ٣٠ جزءًا</div></div>
+<div class="bqinfo"><p class="k" id="khK"></p><p class="big" id="khNext"></p><p class="mute" id="khToday" style="margin:2px 0 0"></p>
+<div class="bar" style="margin:8px 0 0"><i id="khTBar"></i></div>
+<div class="row" style="margin-top:12px"><a class="btn pri" id="khOpen" href="#khatma">اقرأ هنا</a><button class="btn" id="khPlus">قرأت صفحة</button></div></div>
+</div>
+<div class="card" style="margin-top:12px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between">
+<label class="field" for="khPlan" style="flex:1;min-width:200px">مدة الختمة<select id="khPlan"><option value="60">شهران</option><option value="40">٤٠ يومًا</option><option value="30">شهر</option><option value="15">١٥ يومًا</option><option value="10">١٠ أيام</option><option value="7">أسبوع</option><option value="3">٣ أيام</option></select></label>
+<p class="mute" id="khPace" style="margin:0;flex:1;min-width:200px"></p>
+</div>
+<div class="juzg" id="khGrid"></div>
+<p class="mute" style="margin-top:10px">اضغط الجزء لتعليمه كاملًا، أو اقرأ صفحة صفحة داخل التطبيق ويُعلَّم الجزء تلقائيًا عند آخر صفحة منه.</p>
+<div id="khHist"></div>
+<div class="row" style="margin-top:12px"><button class="btn" id="khReset">ابدأ ختمة جديدة من الأول</button></div>
 </div>
 <div id="bqMem" hidden>
 <div class="card" style="margin-top:14px"><p class="big" id="mmTxt"></p><div class="bar"><i id="mmBar"></i></div>
@@ -563,7 +591,7 @@ const DEF=[
 ['q3',0,'ركعتا الفجر','«خير من الدنيا وما فيها»'],
 ['q4',0,'أذكار الصباح','<a href="#adhkar" data-go="sabah">افتحها مع العدّاد</a>'],
 ['q5',0,'تاج الذكر ١٠٠ مرة','<a href="#tasbih" data-ph="7">افتح السبحة</a>'],
-['q6',0,'ورد من القرآن','ولو نصف جزء'],
+['q6',0,'ورد من القرآن','<a href="#baqara" data-qm="kh">تابع ختمتك</a>، ويُعلَّم تلقائيًا عند إتمام وِرد اليوم'],
 ['q7',1,'صلاة الضحى','ركعتان أو أكثر'],
 ['q15',2,'أذكار بعد الصلوات الخمس','<a href="#adhkar" data-go="salah">افتحها مع العدّاد</a>، وتُعلَّم تلقائيًا بعد الخمس'],
 ['q8',2,'الاستغفار','<a href="#tasbih" data-ph="0">افتح السبحة</a>'],
@@ -577,7 +605,7 @@ const DEF=[
 ['q1',5,'قيام الليل أو الوتر','ولو ركعتين'],
 ['q2',5,'استغفار ودعاء في الثلث الأخير','«هل من داع فأستجيب له»']
 ].map(([id,s,a,b])=>({id,s,a,b,d:1}));
-let items=load('w.items',null);if(items&&!load('w.ver',0)){const M=[5,0,1,2,3,4];items.forEach(x=>{x.s=M[x.s]??x.s})}items=items||DEF.map(x=>({...x}));items.forEach(x=>{if(x.id==='q14')x.b=''});if(load('w.ver',0)<4){if(!items.find(x=>x.id==='q15'))items.splice(Math.max(0,items.findIndex(x=>x.s===3)),0,{id:'q15',s:2,a:'أذكار بعد الصلوات الخمس',b:DEF.find(x=>x.id==='q15').b,d:1});items.forEach(x=>{if(x.id==='q16')x.b=DEF.find(y=>y.id==='q16').b});if(!items.find(x=>x.id==='q16'))items.push({id:'q16',s:5,a:'عند الاستيقاظ لقيام الليل',b:DEF.find(x=>x.id==='q16').b,d:1});const L5=items.filter(x=>x.s===5),o=items.filter(x=>x.s!==5);L5.sort((a,b)=>a.id==='q16'?-1:b.id==='q16'?1:0);items=[...o,...L5]}if(load('w.ver',0)<3){put('w.cnt',{});const dd=load('w.days',{});Object.values(dd).forEach(d=>{d.c={}});put('w.days',dd)}put('w.items',items);put('w.ver',4);
+let items=load('w.items',null);if(items&&!load('w.ver',0)){const M=[5,0,1,2,3,4];items.forEach(x=>{x.s=M[x.s]??x.s})}items=items||DEF.map(x=>({...x}));items.forEach(x=>{if(x.id==='q14')x.b=''});if(load('w.ver',0)<4){if(!items.find(x=>x.id==='q15'))items.splice(Math.max(0,items.findIndex(x=>x.s===3)),0,{id:'q15',s:2,a:'أذكار بعد الصلوات الخمس',b:DEF.find(x=>x.id==='q15').b,d:1});items.forEach(x=>{if(x.id==='q16'||x.id==='q6')x.b=DEF.find(y=>y.id===x.id).b});if(!items.find(x=>x.id==='q16'))items.push({id:'q16',s:5,a:'عند الاستيقاظ لقيام الليل',b:DEF.find(x=>x.id==='q16').b,d:1});const L5=items.filter(x=>x.s===5),o=items.filter(x=>x.s!==5);L5.sort((a,b)=>a.id==='q16'?-1:b.id==='q16'?1:0);items=[...o,...L5]}if(load('w.ver',0)<3){put('w.cnt',{});const dd=load('w.days',{});Object.values(dd).forEach(d=>{d.c={}});put('w.days',dd)}put('w.items',items);put('w.ver',4);
 const days=load('w.days',{});
 const day=()=>days[TK]||(days[TK]={t:{},c:{},bp:[],tsb:{}});
 const cnts=load('w.cnt',{});
@@ -793,17 +821,45 @@ tgSel.addEventListener('change',()=>{if(tgSel.value==='c'){$('tgtCw').hidden=fal
 $('tgtC').addEventListener('change',()=>{tsb.tg=Math.max(1,Math.min(100000,parseInt($('tgtC').value)||500));drawT()});
 syncTg();drawT();
 
+/* ---------- khatma ---------- */
+const JS=[1,22,42,62,82,102,121,142,162,182,201,222,242,262,282,302,322,342,362,382,402,422,442,462,482,502,522,542,562,582,605];
+const juzOf=p=>{for(let i=29;i>=0;i--)if(p>=JS[i])return i;return 0};
+const kh=load('w.kh',{j:[],p:1,plan:30,start:Date.now(),hist:[]});
+const saveKh=()=>put('w.kh',kh);
+const target=()=>Math.ceil(604/kh.plan);
+const khAdd=(n)=>{const d=day();d.kp=(d.kp||0)+n;if(d.kp>=target()||n>=20)d.t.q6=true;stamp();saveDays()};
+const khFinish=()=>{kh.hist.unshift({d:Date.now(),days:Math.max(1,Math.round((Date.now()-kh.start)/864e5))});kh.j=[];kh.p=1;kh.start=Date.now();saveKh();toast('ما شاء الله، أتممت ختمة القرآن، تقبّل الله منك');checkBadges()};
+const khMarkPage=p=>{const z=juzOf(p);kh.p=Math.min(605,p+1);if(kh.p>=JS[z+1]&&!kh.j.includes(z))kh.j.push(z);saveKh();khAdd(1);if(kh.j.length>=30)khFinish()};
+const drawKh=()=>{const n=kh.j.length,R=52,Lc=2*Math.PI*R;
+$('khRing').innerHTML=`<circle cx="60" cy="60" r="${R}" fill="none" stroke="var(--panel)" stroke-width="9"/><circle cx="60" cy="60" r="${R}" fill="none" stroke="var(--gold)" stroke-width="9" stroke-linecap="round" stroke-dasharray="${Lc}" stroke-dashoffset="${Lc*(1-n/30)}" transform="rotate(-90 60 60)"/>`;
+$('khNum').textContent=ar(n);
+const cz=juzOf(Math.min(604,kh.p));
+$('khK').textContent=`الختمة رقم ${ar(kh.hist.length+1)} · تابع من حيث وقفت`;
+$('khNext').textContent=`الجزء ${ar(cz+1)}، الصفحة ${ar(Math.min(604,kh.p))}`;
+const kp=day().kp||0,tg=target();$('khToday').textContent=kp>=tg?`أتممت وِرد اليوم: ${ar(kp)} صفحة`:`وِرد اليوم ${ar(tg)} صفحة، قرأت ${ar(kp)}`;$('khTBar').style.width=Math.min(100,kp/tg*100)+'%';
+$('khPlan').value=String(kh.plan);
+const el=Math.max(1,Math.round((Date.now()-kh.start)/864e5)+1),left=Math.max(0,kh.plan-el+1),rem=604-Math.min(604,kh.p-1)-(kh.j.length?0:0);
+$('khPace').textContent=`نحو ${ar(tg)} صفحة يوميًا لتختم في ${kh.plan===30?'شهر':kh.plan===60?'شهرين':ar(kh.plan)+(kh.plan<=10?' أيام':' يومًا')}. بقي من مدتك ${ar(left)} ${left===1?'يوم':left===2?'يومان':left<=10?'أيام':'يومًا'}.`;
+$('khGrid').innerHTML=Array.from({length:30},(_,i)=>{const done=kh.j.includes(i),a=JS[i],b=JS[i+1]-1,prog=done?1:(kh.p>a&&kh.p<=b+1?(kh.p-a)/(b-a+1):0);return `<button class="jz${done?' done':''}${i===cz&&!done?' cur':''}" data-jz="${i}" aria-label="الجزء ${ar(i+1)}"><b>${ar(i+1)}</b><small>${ar(a)}–${ar(b)}</small>${!done&&prog>0?`<span class="mini"><i style="width:${prog*100}%"></i></span>`:''}</button>`}).join('');
+$('khHist').innerHTML=kh.hist.length?`<h3 class="dh2"><svg><use href="#star"/></svg>ختماتك</h3><ul class="hist">${kh.hist.map((h,i)=>`<li><span>الختمة ${ar(kh.hist.length-i)}</span><span class="mute">${new Date(h.d).toLocaleDateString('ar-EG',{day:'numeric',month:'long',year:'numeric'})} · في ${ar(h.days)} ${h.days===1?'يوم':h.days===2?'يومين':h.days<=10?'أيام':'يومًا'}</span></li>`).join('')}</ul>`:''};
+$('khGrid').addEventListener('click',e=>{const b=e.target.closest('[data-jz]');if(!b)return;const z=+b.dataset.jz,i=kh.j.indexOf(z);if(i<0){kh.j.push(z);khAdd(JS[z+1]-JS[z]);if(kh.p>=JS[z]&&kh.p<JS[z+1])kh.p=JS[z+1];while(kh.j.includes(juzOf(kh.p))&&kh.p<605)kh.p=JS[juzOf(kh.p)+1]}else kh.j.splice(i,1);saveKh();if(kh.j.length>=30)khFinish();drawKh();checkBadges()});
+$('khPlus').addEventListener('click',()=>{khMarkPage(Math.min(604,kh.p));drawKh()});
+$('khPlan').addEventListener('change',()=>{kh.plan=+$('khPlan').value;saveKh();drawKh()});
+$('khReset').addEventListener('click',()=>{kh.j=[];kh.p=1;kh.start=Date.now();saveKh();drawKh()});
+
 /* ---------- baqara ---------- */
 let MP=2,MMODE='bq';
 const PAGES=Array.from({length:48},(_,i)=>i+2);
 const SESS=[['الفجر',2,11],['الظهر',12,21],['العصر',22,31],['المغرب',32,41],['العشاء',42,49]];
 const JUZ=SESS.map(([n,a,b])=>[`بعد ${n}، الصفحات ${ar(a)} إلى ${ar(b)}`,a,b]);
 const curSess=()=>{const t=now;return t<T0.dhuhr?0:t<T0.asr?1:t<T0.maghrib?2:t<T0.isha?3:4};
-let mode='read';
+let mode=load('w.qm','kh');
 const grid=(cls,fn)=>JUZ.map(([n,a,b])=>`<p class="juz">${n}</p><div class="pages">${PAGES.filter(p=>p>=a&&p<=b).map(p=>`<button class="cell ${fn(p)}" data-${cls}="${p}" aria-label="صفحة ${ar(p)}">${ar(p)}</button>`).join('')}</div>`).join('');
 const drawB=()=>{const d=day(),bp=d.bp||(d.bp=[]);
-$('m-read').setAttribute('aria-pressed',mode==='read');$('m-mem').setAttribute('aria-pressed',mode==='mem');
-$('bqRead').hidden=mode!=='read';$('bqMem').hidden=mode!=='mem';
+$('m-read').setAttribute('aria-pressed',mode==='read');$('m-mem').setAttribute('aria-pressed',mode==='mem');$('m-kh').setAttribute('aria-pressed',mode==='kh');
+$('bqRead').hidden=mode!=='read';$('bqMem').hidden=mode!=='mem';$('bqKh').hidden=mode!=='kh';
+$('qH').textContent=mode==='kh'?'ختمة القرآن':'سورة البقرة';$('qP').textContent=mode==='kh'?'٣٠ جزءًا، ٦٠٤ صفحات في مصحف المدينة':'«أخذها بركة، وتركها حسرة»، ٤٨ صفحة في مصحف المدينة';
+if(mode==='kh')drawKh();
 const r=bp.length,R=52,Lc=2*Math.PI*R;
 $('bqRing').innerHTML=`<circle cx="60" cy="60" r="${R}" fill="none" stroke="var(--panel)" stroke-width="9"/><circle cx="60" cy="60" r="${R}" fill="none" stroke="var(--gold)" stroke-width="9" stroke-linecap="round" stroke-dasharray="${Lc}" stroke-dashoffset="${Lc*(1-r/48)}" transform="rotate(-90 60 60)"/>`;
 $('bqNum').textContent=ar(r);
@@ -825,7 +881,9 @@ $('bqSess').addEventListener('click',e=>{const b=e.target.closest('[data-ss]');i
 $('rdAll').addEventListener('click',()=>{day().bp=[...PAGES];setBq();drawB()});
 $('rdClr').addEventListener('click',()=>{day().bp=[];setBq();drawB()});
 $('m-read').addEventListener('click',()=>{mode='read';drawB()});
-$('m-mem').addEventListener('click',()=>{mode='mem';drawB()});
+$('m-mem').addEventListener('click',()=>{mode='mem';put('w.qm',mode);drawB()});
+$('m-kh').addEventListener('click',()=>{mode='kh';put('w.qm',mode);drawB()});
+$('m-read').addEventListener('click',()=>{put('w.qm','read')});
 drawB();
 
 /* ---------- log ---------- */
@@ -843,17 +901,23 @@ $('cal').innerHTML=h;drawBadges();drawLoc();
 $('mNext').disabled=vm.getFullYear()===now.getFullYear()&&vm.getMonth()===now.getMonth()};
 $('mPrev').addEventListener('click',()=>{vm=new Date(vm.getFullYear(),vm.getMonth()-1,1);drawLog()});
 $('mNext').addEventListener('click',()=>{vm=new Date(vm.getFullYear(),vm.getMonth()+1,1);drawLog()});
-$('bkCopy').addEventListener('click',async()=>{const data=JSON.stringify({items,days,cnts,mem,tsb,muh:load('w.muh',{})});try{await navigator.clipboard.writeText(data);$('bkMsg').textContent='نُسخت. الصقها في الملاحظات واحفظها.'}catch(e){$('bkIn').value=data;$('bkIn').select();$('bkMsg').textContent='لم يسمح المتصفح بالنسخ التلقائي. النص محدد في المربع، انسخه يدويًا.'}});
-$('bkLoad').addEventListener('click',()=>{try{const o=JSON.parse($('bkIn').value);if(!o.days)throw 0;put('w.items',o.items||DEF);put('w.days',o.days);put('w.cnt',o.cnts||{});put('w.mem',o.mem||{});put('w.tsb',o.tsb||tsb);if(o.muh)put('w.muh',o.muh);$('bkMsg').textContent='تم الاسترجاع.';setTimeout(()=>location.reload(),800)}catch(e){$('bkMsg').textContent='النص غير صالح. تأكد أنك لصقت النسخة كاملة.'}});
+$('bkCopy').addEventListener('click',async()=>{const data=JSON.stringify({items,days,cnts,mem,tsb,muh:load('w.muh',{}),kh:load('w.kh',null)});try{await navigator.clipboard.writeText(data);$('bkMsg').textContent='نُسخت. الصقها في الملاحظات واحفظها.'}catch(e){$('bkIn').value=data;$('bkIn').select();$('bkMsg').textContent='لم يسمح المتصفح بالنسخ التلقائي. النص محدد في المربع، انسخه يدويًا.'}});
+$('bkLoad').addEventListener('click',()=>{try{const o=JSON.parse($('bkIn').value);if(!o.days)throw 0;put('w.items',o.items||DEF);put('w.days',o.days);put('w.cnt',o.cnts||{});put('w.mem',o.mem||{});put('w.tsb',o.tsb||tsb);if(o.muh)put('w.muh',o.muh);if(o.kh)put('w.kh',o.kh);$('bkMsg').textContent='تم الاسترجاع.';setTimeout(()=>location.reload(),800)}catch(e){$('bkMsg').textContent='النص غير صالح. تأكد أنك لصقت النسخة كاملة.'}});
 
 /* ---------- mushaf reader ---------- */
 const QKEY='w.q.';
 const getSurah=async n=>{let c=null;try{c=JSON.parse(localStorage.getItem(QKEY+n))}catch(e){}if(c)return c;
 const r=await fetch(`https://api.alquran.cloud/v1/surah/${n}/quran-uthmani`);const j=await r.json();const a=j.data.ayahs.map(x=>[x.numberInSurah,x.text,x.page]);try{localStorage.setItem(QKEY+n,JSON.stringify(a))}catch(e){}return a};
+const getPage=async p=>{let c=null;try{c=JSON.parse(localStorage.getItem('w.qp.'+p))}catch(e){}if(c)return c;
+const r=await fetch(`https://api.alquran.cloud/v1/page/${p}/quran-uthmani`);const j=await r.json();const a=j.data.ayahs.map(x=>[x.numberInSurah,x.text,p,x.surah.number,x.surah.name]);try{localStorage.setItem('w.qp.'+p,JSON.stringify(a))}catch(e){}return a};
 const BSM=/^بِسْمِ\s*[ٱا]للَّهِ\s*[ٱا]لرَّحْمَٰنِ\s*[ٱا]لرَّحِيمِ\s*/;
 const ayHTML=a=>a.map(([n,t],k)=>`${n===1?t.replace(BSM,''):t} <span class="an">﴿${ar(n)}﴾</span>`).join(' ');
 const drawMushaf=async()=>{const pg=$('mPage');pg.innerHTML='<p class="mute" style="text-align:center">جارٍ تحميل الصفحة…</p>';
-try{if(MMODE==='bq'){const a=await getSurah(2),ay=a.filter(x=>x[2]===MP),bp=day().bp||[];
+try{if(MMODE==='kh'){const P=Math.min(604,kh.KP||kh.p),ay=await getPage(P);let h='',run=[];const flush=()=>{if(run.length){h+=`<p class="mtext">${run.map(([n,t,_,s])=>`${n===1&&s!==1&&s!==9?t.replace(BSM,''):t} <span class="an">﴿${ar(n)}﴾</span>`).join(' ')}</p>`;run=[]}};
+ay.forEach(a=>{if(a[0]===1){flush();h+=`<p class="msura">${a[4]}</p>`+(a[3]!==1&&a[3]!==9?'<p class="mbism">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>':'')}run.push(a)});flush();
+$('mTitle2').textContent=`الصفحة ${ar(P)}`;$('mSub').textContent=`الجزء ${ar(juzOf(P)+1)}، ${ay[0][4]}`;pg.className='mpage'+(P<kh.p?' read':'');pg.innerHTML=h;
+$('mPrevP').disabled=P<=1;$('mNextP').disabled=P>=604;$('mActs').hidden=false;$('mDone').textContent=P>=604?'قرأتها، وأتممت الختمة':'قرأتها، الصفحة التالية';$('mBack').href='#baqara';$('mBack').textContent='رجوع إلى الختمة';return}
+if(MMODE==='bq'){const a=await getSurah(2),ay=a.filter(x=>x[2]===MP),bp=day().bp||[];
 $('mTitle2').textContent=`الصفحة ${ar(MP)}`;$('mSub').textContent=`سورة البقرة، الآيات ${ar(ay[0][0])} إلى ${ar(ay[ay.length-1][0])}`;
 pg.className='mpage'+(bp.includes(MP)?' read':'');
 pg.innerHTML=(MP===2?'<p class="msura">سورة البقرة</p><p class="mbism">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>':'')+`<p class="mtext">${ayHTML(ay)}</p>`;
@@ -862,16 +926,16 @@ else{const a=await getSurah(3),ay=a.filter(x=>x[0]>=190);$('mTitle2').textConten
 pg.innerHTML=`<p class="mtext">${ayHTML(ay)}</p>`;$('mPrevP').disabled=true;$('mNextP').disabled=true;$('mActs').hidden=false;$('mDone').textContent='قرأتها، الحمد لله';$('mBack').href='#today';$('mBack').textContent='رجوع إلى وِرد اليوم'}}
 catch(e){pg.className='mpage';pg.innerHTML='<p style="text-align:center">تحتاج اتصالًا بالإنترنت أول مرة لتحميل الآيات، ثم تبقى محفوظة على جهازك.</p><p style="text-align:center"><button class="btn" id="mRetry">حاول مرة أخرى</button></p>';$('mActs').hidden=true}};
 $('mPage').addEventListener('click',e=>{if(e.target.id==='mRetry')drawMushaf()});
-$('mPrevP').addEventListener('click',()=>{if(MP>2){MP--;drawMushaf();scrollTo(0,0)}});
-$('mNextP').addEventListener('click',()=>{if(MP<49){MP++;drawMushaf();scrollTo(0,0)}});
-$('mDone').addEventListener('click',()=>{const d=day();if(MMODE==='bq'){if(!d.bp.includes(MP))d.bp.push(MP);setBq();checkBadges();if(d.bq){toast('أتممت سورة البقرة اليوم، تقبّل الله منك');location.hash='baqara';return}const nx=PAGES.find(p=>!d.bp.includes(p));if(nx){MP=nx;drawMushaf();scrollTo(0,0)}}else{d.t.q16=true;stamp();toast('تقبّل الله قيامك');location.hash='today'}});
+$('mPrevP').addEventListener('click',()=>{if(MMODE==='kh'){const P=kh.KP||kh.p;if(P>1){kh.KP=P-1;drawMushaf();scrollTo(0,0)}return}if(MP>2){MP--;drawMushaf();scrollTo(0,0)}});
+$('mNextP').addEventListener('click',()=>{if(MMODE==='kh'){const P=kh.KP||kh.p;if(P<604){kh.KP=P+1;drawMushaf();scrollTo(0,0)}return}if(MP<49){MP++;drawMushaf();scrollTo(0,0)}});
+$('mDone').addEventListener('click',()=>{const d=day();if(MMODE==='kh'){const P=Math.min(604,kh.KP||kh.p);const before=kh.hist.length;if(P>=kh.p)khMarkPage(P);kh.KP=0;if(kh.hist.length>before){location.hash='baqara';return}drawMushaf();scrollTo(0,0);return}if(MMODE==='bq'){if(!d.bp.includes(MP))d.bp.push(MP);setBq();checkBadges();if(d.bq){toast('أتممت سورة البقرة اليوم، تقبّل الله منك');location.hash='baqara';return}const nx=PAGES.find(p=>!d.bp.includes(p));if(nx){MP=nx;drawMushaf();scrollTo(0,0)}}else{d.t.q16=true;stamp();toast('تقبّل الله قيامك');location.hash='today'}});
 $('rdGrid').addEventListener('dblclick',e=>{const b=e.target.closest('[data-rp]');if(!b)return;MP=+b.dataset.rp;location.hash='mushaf'});
 
 /* ---------- badges ---------- */
 const STARB='<svg><use href="#star"/></svg>';
 const listDone=(d,l)=>L[l].items.every(([t,n],j)=>((d.c||{})[l+j]||0)>=need(l+j,n));
 const metrics=()=>{const all=Object.values(days);return{tt:all.reduce((a,d)=>a+Object.values(d.tsb||{}).reduce((x,y)=>x+y,0),0),bq:all.filter(d=>d.bq).length,mm:Object.values(mem).filter(v=>v===2).length,bs:best(),wd:all.filter(d=>d.done).length,ad:all.reduce((a,d)=>a+['sabah','masa','nawm'].filter(l=>listDone(d,l)).length,0)}};
-const BADGES=m=>[['أول خطوة','أول يوم تلتزم فيه بنصف الورد',m.bs>=1],['ثلاثة أيام','ثلاثة أيام متتالية',m.bs>=3],['أسبوع كامل','سبعة أيام متتالية',m.bs>=7],['أربعون يومًا','أربعون يومًا متتالية',m.bs>=40],['أذكار مكتملة','أتممت ٣٠ قائمة أذكار',m.ad>=30],['ألف ذكر','١٠٠٠ ذكر في السبحة',m.tt>=1000],['عشرة آلاف','١٠٠٠٠ ذكر في السبحة',m.tt>=1e4],['ختمة البقرة','أول قراءة كاملة للبقرة',m.bq>=1],['عشر ختمات','البقرة كاملة عشر مرات',m.bq>=10],['حافظ الجزء','أتقنت ٢٠ صفحة من البقرة',m.mm>=20],['حافظ البقرة','أتقنت البقرة كاملة',m.mm>=48]];
+const BADGES=m=>[['أول خطوة','أول يوم تلتزم فيه بنصف الورد',m.bs>=1],['ثلاثة أيام','ثلاثة أيام متتالية',m.bs>=3],['أسبوع كامل','سبعة أيام متتالية',m.bs>=7],['أربعون يومًا','أربعون يومًا متتالية',m.bs>=40],['أذكار مكتملة','أتممت ٣٠ قائمة أذكار',m.ad>=30],['ألف ذكر','١٠٠٠ ذكر في السبحة',m.tt>=1000],['عشرة آلاف','١٠٠٠٠ ذكر في السبحة',m.tt>=1e4],['ختمة البقرة','أول قراءة كاملة للبقرة',m.bq>=1],['عشر ختمات','البقرة كاملة عشر مرات',m.bq>=10],['حافظ الجزء','أتقنت ٢٠ صفحة من البقرة',m.mm>=20],['حافظ البقرة','أتقنت البقرة كاملة',m.mm>=48],['الختمة الأولى','أتممت ختمة القرآن كاملة',load('w.kh',{hist:[]}).hist.length>=1],['ثلاث ختمات','أتممت ثلاث ختمات',load('w.kh',{hist:[]}).hist.length>=3]];
 const checkBadges=()=>{if(!READY)return;const got=load('w.badges',[]),b=BADGES(metrics());b.forEach(([n,d,ok])=>{if(ok&&!got.includes(n)){got.push(n);toast('وسام جديد: '+n+' · '+d)}});put('w.badges',got)};
 const drawBadges=()=>{const m=metrics(),b=BADGES(m),n=b.filter(x=>x[2]).length;$('bdTxt').textContent=`${ar(n)} من ${ar(b.length)}`;
 $('badges').innerHTML=b.map(([t,d,ok])=>`<div class="bd${ok?' on':''}">${STARB}<b>${t}</b>${d}</div>`).join('');
@@ -1179,13 +1243,14 @@ document.querySelectorAll('#v-bitaqat .seg button').forEach(b=>b.setAttribute('a
 
 /* ---------- routing ---------- */
 const TABS=['today','adhkar','tasbih','baqara','log','more'],SUB=['sabit','arafa','bitaqat','khulasa'];
-const route=()=>{const h=location.hash.slice(1);const isDoc=!!DOCS[h];const v=isDoc?'doc':h==='mushaf'||h==='imran'?'mushaf':TABS.includes(h)||SUB.includes(h)?h:'today';if(v==='mushaf'){MMODE=h==='imran'?'im':'bq';drawMushaf()}if(isDoc)drawDoc(h);
+const route=()=>{const h=location.hash.slice(1);const isDoc=!!DOCS[h];const v=isDoc?'doc':h==='mushaf'||h==='imran'||h==='khatma'?'mushaf':TABS.includes(h)||SUB.includes(h)?h:'today';if(v==='mushaf'){MMODE=h==='imran'?'im':h==='khatma'?'kh':'bq';if(h==='khatma')kh.KP=0;drawMushaf()}if(isDoc)drawDoc(h);
 [...TABS,...SUB,'doc','mushaf'].forEach(x=>{$('v-'+x).hidden=x!==v});
 const tab=SUB.includes(v)||v==='doc'?'more':v==='mushaf'?(h==='imran'?'today':'baqara'):v;
+if(v==='baqara')drawB();
 document.querySelectorAll('[data-tab]').forEach(a=>a.setAttribute('aria-current',a.dataset.tab===tab?'page':'false'));
 if(v==='log')drawLog();if(v==='today')drawSlots();if(v==='baqara')drawB();if(v==='tasbih')drawT();if(v==='adhkar')drawDk();
 window.scrollTo(0,0)};
-document.addEventListener('click',e=>{const a=e.target.closest('[data-go],[data-ph]');if(!a)return;if(a.dataset.go){listMode=false;pick(a.dataset.go)}if(a.dataset.ph){tsb.p=+a.dataset.ph;tsb.n=0;$('tdone').textContent='';drawT()}});
+document.addEventListener('click',e=>{const q=e.target.closest('[data-qm]');if(q){mode=q.dataset.qm;put('w.qm',mode)}const a=e.target.closest('[data-go],[data-ph]');if(!a)return;if(a.dataset.go){listMode=false;pick(a.dataset.go)}if(a.dataset.ph){tsb.p=+a.dataset.ph;tsb.n=0;$('tdone').textContent='';drawT()}});
 window.addEventListener('hashchange',route);
 const nextB=BND.find(b=>b>now);if(nextB&&nextB-now<864e5)setTimeout(()=>location.reload(),nextB-now+2000);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden&&Date.now()-now>60*6e4)location.reload()});
